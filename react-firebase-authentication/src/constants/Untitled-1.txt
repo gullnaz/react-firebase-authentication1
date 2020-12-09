@@ -1,0 +1,90 @@
+#include "math.h"
+#include "iostream.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "conio.h"
+ 
+void main()
+{
+        randomize();
+        double lyambda=0, mu=0, time, Tobsl=0, t=0,Ivh,Iobsl,Po,A,KolKan,Potk,Q;
+        int Cz=0,Co=0,Cobsl=0,S=0,kol;
+        cout<<"Vvedite intensivnost vhodnogo potoka: ";
+        cin>>Ivh;
+        cout<<"Vvedite intensivnost potoka obsluzhivaniya: ";
+        cin>>Iobsl;
+        cout<<"Vvedite kolichestvo progonov: ";
+        cin>>kol;
+        cout<<"\n";
+ 
+        for(int i=1; i<=kol; i++)
+        {
+                cout<<"Progon "<<i<<":\n";
+                cout<<"Vvedite vremya raboti sistemi: ";
+                cin>>time;
+                do
+                {
+                        if(S==0)
+                        {
+                                lyambda=(-1)*log(random(1000)/1000.0+0.001)/Ivh;
+                                S=1;
+                                t+=lyambda;
+                                Cz++;
+                                Cobsl++;
+                        }
+                        if(S==1)
+                        {
+                                lyambda=(-1)*log(random(1000)/1000.0+0.001)/Ivh;
+                                mu=(-1)*log(random(1000)/1000.0+0.001)/Iobsl;
+                                if(lyambda<mu)
+                                {
+                                        S=2;
+                                        t+=lyambda;
+                                        Cz++;
+                                        Cobsl++;
+                                        Tobsl+=lyambda;
+                                }
+                                else
+                                {
+                                        S=0;
+                                        t+=mu;
+                                        Tobsl+=mu;
+                                }
+                        }
+                        if(S==2)
+                        {
+                                lyambda=(-1)*log(random(1000)/1000.0+0.001)/Ivh;
+                                mu=(-1)*log(random(1000)/1000.0+0.001)/Iobsl;
+                                if(lyambda<mu)
+                                {
+                                        S=2;
+                                        t+=lyambda;
+                                        Cz++;
+                                        Co++;
+                                        Tobsl+=lyambda;
+                                }
+                                else
+                                {
+                                        S=1;
+                                        t+=mu;
+                                        Tobsl+=mu;
+                                }
+                        }
+                }
+                while(t<time);
+                Po=(time -Tobsl)/2/time;
+                Potk=(double)Co/(double)Cz;
+                Q=(double)Cobsl/(double)Cz;
+                A=(double)Cobsl/time;
+                KolKan=(time-Tobsl)/time;
+                cout<<"Kolichestvo zayavok: "<<Cz<<"\n";
+                cout<<"Kolichestvo obsluzhennih zayavok: "<<Cobsl<<"\n";
+                cout<<"Otkazano "<<Co<<" zayavke(am)\n";
+                cout<<"Veroyatnost prostoya: "<<Po<<"\n";
+                cout<<"Veroyatnost otkaza: "<<Potk<<"\n";
+                cout<<"Dolya obsluzhennih zayavok: "<<Q<<"\n";
+                cout<<"Absolyutnaya propusknaya sposobnost: "<<A<<"\n";
+                cout<<"Srednee chislo zanyatih kanalov: "<<KolKan<<"\n\n";
+        }
+        getch();
+}
