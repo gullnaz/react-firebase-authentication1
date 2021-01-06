@@ -1,5 +1,11 @@
-import React from 'react';
+import AuthUserContext from './context';
+import withAuthentication from './withAuthentication';
+import withAuthorization from './withAuthorization';
+import withEmailVerification from './withEmailVerification';
 
-const AuthUserContext = React.createContext(null);
-
-export default AuthUserContext;
+export {
+  AuthUserContext,
+  withAuthentication,
+  withAuthorization,
+  withEmailVerification,
+};
